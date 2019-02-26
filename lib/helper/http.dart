@@ -13,11 +13,25 @@ class RestApi {
     return dio;
   }
 
+  static request({method, url, data}) async {
+    Response<dynamic> response;
+    if (method == 'get') {
+      response = await RestApi.getDio().get(url, data: data);
+    } else {
+      response = await RestApi.getDio().post(url, data: data);
+    }
+    return response.data;
+  }
+
   static Future post(url, [data]) async {
-    return await RestApi.getDio().post(url, data: data);
+    Response response;
+    response =  await RestApi.getDio().post(url, queryParameters: data);
+    return response.data;
   }
 
   static Future get(url, [data]) async {
-    return await RestApi.getDio().get(url, queryParameters: data);
+    Response response;
+    response = await RestApi.getDio().get(url, queryParameters: data);
+    return response.data;
   }
 }

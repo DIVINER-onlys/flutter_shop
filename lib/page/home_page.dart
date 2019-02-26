@@ -54,21 +54,29 @@ class _HomePageState extends State<HomePage> {
         builder: (context) => AlertDialog(title: Text('类型不能为空'),)
       );
     } else {
-      getHttp(typeController.text.toString()).then((res) {
+      // getHttp(typeController.text.toString()).then((res) {
+      //   setState(() {
+      //     print('测试$res');
+      //     showText = res['data']['name'].toString();
+      //   });
+      // });
+
+      // 调用封装get
+      // RestApi.get('https://www.easy-mock.com/mock/5c60131a4bed3a6342711498/baixing/dabaojian', {'name': typeController.text.toString()})
+      // .then((res) {
+      //     print('测试1$res');
+      //     // showText = res['data']['name'].toString();
+      //   }
+      // );
+
+      // 调用封装post
+      RestApi.post('https://www.easy-mock.com/mock/5c60131a4bed3a6342711498/baixing/post_dabaojian', {'name': typeController.text.toString()})
+      .then((res) {
         setState(() {
-          print('测试$res');
+          print('测试2$res');
           showText = res['data']['name'].toString();
         });
       });
-
-      // RestApi.get('https://www.easy-mock.com/mock/5c60131a4bed3a6342711498/baixing/dabaojian', typeController.text.toString()).then(
-      //   (res) {
-      //   setState(() {
-      //       print('测试1$res');
-      //       showText = res['data']['name'].toString();
-      //     });
-      //   }
-      // );
     }
   }
 

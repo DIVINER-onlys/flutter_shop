@@ -4,6 +4,7 @@ import 'home_page.dart';
 import 'category_page.dart';
 import 'cart_page.dart';
 import 'member_page.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class IndexPage extends StatefulWidget {
   @override
@@ -45,6 +46,14 @@ class _IndexPageState extends State<IndexPage> {
     }
   @override
   Widget build(BuildContext context) {
+    // 引入屏幕适配
+    ScreenUtil.instance = ScreenUtil(width: 750, height: 1334)..init(context);
+    print('设备像素密度:${ScreenUtil.pixelRatio}');
+    print('设备高:${ScreenUtil.screenHeight}');
+    print('设备高DP:${ScreenUtil.screenHeightDp}');
+    print('设备宽:${ScreenUtil.screenWidth}');
+    print('设备宽DP:${ScreenUtil.screenWidthDp}');
+
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),
       bottomNavigationBar: BottomNavigationBar(

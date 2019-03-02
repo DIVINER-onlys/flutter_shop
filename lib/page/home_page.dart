@@ -23,11 +23,13 @@ class _HomePageState extends State<HomePage> {
             var data = json.decode(snapshot.data);
             List<Map> swiper = (data['data']['slides'] as List).cast();
             List<Map> navigatorList = (data['data']['category'] as List).cast();
+            String adPicture = data['data']['advertesPicture']['PICTURE_ADDRESS'];
 
             return Column(
               children: <Widget>[
                 SwiperDiy(swiperDateList: swiper),
-                TopNavigator(navigatorList: navigatorList)
+                TopNavigator(navigatorList: navigatorList),
+                AdBanner(adPicture: adPicture)
               ],
             );
           } else {
@@ -64,7 +66,7 @@ class SwiperDiy extends StatelessWidget {
   }
 }
 
-
+// 导航组件
 class TopNavigator extends StatelessWidget {
   final List navigatorList;
   TopNavigator({Key key, this.navigatorList}):super(key: key);
@@ -97,6 +99,19 @@ class TopNavigator extends StatelessWidget {
           return _gridViewItemUI(context, item);
         }).toList(),
       ),
+    );
+  }
+}
+
+// 广告组件
+class AdBanner extends StatelessWidget {
+  final String adPicture;
+  AdBanner({Key key, this.adPicture}):super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Image.network(adPicture),
     );
   }
 }

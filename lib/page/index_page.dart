@@ -30,7 +30,7 @@ class _IndexPageState extends State<IndexPage> {
       title: Text('会议中心')
     )
   ];
-  final List tabBodies = [
+  final List<Widget> tabBodies = [
     HomePage(),
     CateGoryPage(),
     CartPage(),
@@ -67,7 +67,10 @@ class _IndexPageState extends State<IndexPage> {
           });
         },
       ),
-      body: currentPage,
+      body: IndexedStack(
+        index: currentIndex,
+        children: tabBodies,
+      ),
     );
   }
 }

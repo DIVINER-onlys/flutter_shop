@@ -13,7 +13,7 @@ class _CartPageState extends State<CartPage> {
       // TODO: implement initState
       super.initState();
       getHomePageContent().then((val) {
-        print(val);
+        print('购物车数据：$val');
         setState(() {
           homePageContent = val.toString();
         });

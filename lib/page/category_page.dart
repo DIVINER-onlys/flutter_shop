@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
-import '../config/httpHeaders.dart';
+import '../service/service_method.dart';
+import 'dart:convert';
 
 class CateGoryPage extends StatefulWidget {
   @override
@@ -8,44 +8,25 @@ class CateGoryPage extends StatefulWidget {
 }
 
 class _CateGoryPageState extends State<CateGoryPage> {
-  String showText = '还没有数据';
-  void _jike(){
-    print('开始向极客时间请求数据....');
-    getHttp().then((val) {
-      setState(() {
-        showText = val['data'].toString();
-      });
-    });
-  }
-  Future getHttp () async {
-    try {
-      Response response;
-      Dio dio = new Dio();
-      dio.options.headers = httpHeaders;
-      response = await dio.get('https://time.geekbang.org/serv/v1/column/topList');
-      print(response);
-      return response.data;
-    } catch(e) {
-      return print(e);
-    }
-  }
   @override
   Widget build(BuildContext context) {
+    _getCategory();
     return Container(
       child: Scaffold(
         appBar: AppBar(title: Text('请求远程数据'),),
-        body: SingleChildScrollView(
-          child: Column(
-            children: <Widget>[
-              RaisedButton(
-                onPressed: _jike,
-                child: Text('请求数据'),
-              ),
-              Text(showText)
-            ],
+        body: Container(
+          child: Center(
+            child: Text('data'),
           ),
-        ),
+        )
       ),
     );
+  }
+
+  void _getCategory() async {
+    await request('getCategory').then((value) {
+      var data = json.decode(value.toString());
+      print('大水电费水电费第三方第三方对方$data');
+    });
   }
 }

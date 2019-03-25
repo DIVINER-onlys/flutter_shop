@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../service/service_method.dart';
 import 'dart:convert';
+import '../model/category.dart';
 
 class CateGoryPage extends StatefulWidget {
   @override
@@ -27,6 +28,8 @@ class _CateGoryPageState extends State<CateGoryPage> {
     await request('getCategory').then((value) {
       var data = json.decode(value.toString());
       print('大水电费水电费第三方第三方对方$data');
+      CategoryBigListModel list = CategoryBigListModel.fromJson(data['data']);
+      list.data.forEach((item) => print(item.mallCategoryName));
     });
   }
 }

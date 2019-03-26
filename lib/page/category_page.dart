@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../service/service_method.dart';
 import 'dart:convert';
 import '../model/category.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class CateGoryPage extends StatefulWidget {
   @override
@@ -11,15 +12,70 @@ class CateGoryPage extends StatefulWidget {
 class _CateGoryPageState extends State<CateGoryPage> {
   @override
   Widget build(BuildContext context) {
-    _getCategory();
     return Container(
       child: Scaffold(
-        appBar: AppBar(title: Text('请求远程数据'),),
+        appBar: AppBar(title: Text('商品分类'),),
         body: Container(
-          child: Center(
-            child: Text('data'),
+          child: Row(
+            children: <Widget>[
+              LeftCategoryNav()
+            ],
           ),
         )
+      ),
+    );
+  }
+
+}
+
+// 左侧大类导航
+class LeftCategoryNav extends StatefulWidget {
+  @override
+  _LeftCategoryNavState createState() => _LeftCategoryNavState();
+}
+
+class _LeftCategoryNavState extends State<LeftCategoryNav> {
+  List list = [];
+
+  @override
+    void initState() {
+      // TODO: implement initState
+      super.initState();
+      this._getCategory();
+    }
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: ScreenUtil().setWidth(180),
+      decoration: BoxDecoration(
+        border: Border(
+          right: BorderSide(width: 1, color: Colors.black12)
+        )
+      ),
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return _leftInkWell(index);
+        },
+      ),
+    );
+  }
+
+  Widget _leftInkWell(int index) {
+    return InkWell(
+      onTap: (){},
+      child: Container(
+        height: ScreenUtil().setHeight(100),
+        padding: EdgeInsets.only(left: 10,top: 20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(width: 1, color: Colors.black12)
+          )
+        ),
+        child: Text(list[index].mallCategoryName, style: TextStyle(fontSize: ScreenUtil().setSp(28)),),
       ),
     );
   }
@@ -27,9 +83,12 @@ class _CateGoryPageState extends State<CateGoryPage> {
   void _getCategory() async {
     await request('getCategory').then((value) {
       var data = json.decode(value.toString());
-      print('大水电费水电费第三方第三方对方$data');
-      CategoryBigListModel list = CategoryBigListModel.fromJson(data['data']);
-      list.data.forEach((item) => print(item.mallCategoryName));
+      // print('大水电费水电费第三方第三方对方$data');
+      CategoryModel category = CategoryModel.fromJson(data);
+      this.setState(() {
+        list = category.data;
+      });
+      // list.forEach((item) => print(item.mallCategoryName));
     });
   }
 }

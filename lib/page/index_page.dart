@@ -53,6 +53,7 @@ class _IndexPageState extends State<IndexPage> {
     print('设备高DP:${ScreenUtil.screenHeightDp}');
     print('设备宽:${ScreenUtil.screenWidth}');
     print('设备宽DP:${ScreenUtil.screenWidthDp}');
+    print('设备信息：${MediaQuery.of(context).size}');
 
     return Scaffold(
       backgroundColor: Color.fromRGBO(244, 245, 245, 1.0),

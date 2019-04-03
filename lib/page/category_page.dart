@@ -86,7 +86,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
         });
         var childList = list[index].bxMallSubDto;
         var categoryId = list[index].mallCategoryId;
-        Provide.value<ChildCategory>(context).getChildCategory(childList);
+        Provide.value<ChildCategory>(context).getChildCategory(childList, categoryId);
         _getGoodList(categoryId: categoryId);
       },
       child: Container(
@@ -111,7 +111,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
       this.setState(() {
         list = category.data;
       });
-      Provide.value<ChildCategory>(context).getChildCategory(list[0].bxMallSubDto);
+      Provide.value<ChildCategory>(context).getChildCategory(list[0].bxMallSubDto, list[0].mallCategoryId);
       // list.forEach((item) => print(item.mallCategoryName));
     });
   }
@@ -120,7 +120,7 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
   void _getGoodList({String categoryId}) async {
     var data = {
       'categoryId': categoryId == null ? '4' : categoryId,
-      'CategorySubId': '',
+      'categorySubId': '',
       'page': 1
     };
 
@@ -171,6 +171,7 @@ class __RightCatetoryNavState extends State<_RightCatetoryNav> {
     return InkWell(
       onTap: (){
         Provide.value<ChildCategory>(context).changeChildIndex(index);
+        _getGoodList(item.mallSubId);
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
@@ -183,6 +184,20 @@ class __RightCatetoryNavState extends State<_RightCatetoryNav> {
         ),
       ),
     );
+  }
+
+  void _getGoodList(String categorySubId) async {
+    var data = {
+      'categoryId': Provide.value<ChildCategory>(context).categoryId,
+      'categorySubId': categorySubId,
+      'page': 1
+    };
+
+    await request('getMallGoods', formData: data).then((val) {
+      var data = json.decode(val.toString());
+      CategroyGoodsListModel goodsList = CategroyGoodsListModel.fromJson(data);
+      Provide.value<CategoryGoodsListProvide>(context).getGoodsList(goodsList.data);
+    });
   }
 }
 

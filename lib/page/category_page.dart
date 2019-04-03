@@ -163,6 +163,7 @@ class CategoryGoodsList extends StatefulWidget {
 }
 
 class _CategoryGoodsListState extends State<CategoryGoodsList> {
+  List list = [];
 
   @override
   void initState() {
@@ -173,7 +174,14 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text('商品列表'),
+      width: ScreenUtil().setWidth(570),
+      height: ScreenUtil().setHeight(970),
+      child: ListView.builder(
+        itemCount: list.length,
+        itemBuilder: (context, index) {
+          return _listWiget(index);
+        },
+      ),
     );
   }
 
@@ -187,7 +195,81 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
     await request('getMallGoods', formData: data).then((val) {
       var data = json.decode(val.toString());
       CategroyGoodsListModel goodsList = CategroyGoodsListModel.fromJson(data);
-      print('分类商品列表${goodsList.data[0].goodsName}');
+      setState(() {
+        list = goodsList.data;
+      });
     });
+  }
+
+  Widget _goodImage (index) {
+    return Container(
+      width: ScreenUtil().setWidth(200),
+      child: Image.network(list[index].image),
+    );
+  }
+  Widget _goodsName(index) {
+    return Container(
+      padding: EdgeInsets.all(5.0),
+      width: ScreenUtil().setWidth(370),
+      child: Text(
+        list[index].goodsName,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
+        style: TextStyle(
+          fontSize: ScreenUtil().setSp(28)
+        ),
+      ),
+    );
+  }
+
+  Widget _goodsPrice (index) {
+    return Container(
+      margin: EdgeInsets.only(top: 20.0),
+      width: ScreenUtil().setWidth(370),
+      child: Row(
+        children: <Widget>[
+          Text(
+            '价格，￥${list[index].presentPrice}',
+            style: TextStyle(
+              fontSize: ScreenUtil().setSp(30),
+              color: Colors.pink
+            ),
+          ),
+          Text(
+            '￥${list[index].oriPrice}',
+            style: TextStyle(
+              color: Colors.black26,
+              decoration: TextDecoration.lineThrough
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _listWiget(int index) {
+    return InkWell(
+      onTap: (){},
+      child: Container(
+        padding: EdgeInsets.only(top: 5.0, bottom: 5.0),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            bottom: BorderSide(width: 1.0, color: Colors.black12)
+          )
+        ),
+        child: Row(
+          children: <Widget>[
+            _goodImage(index),
+            Column(
+              children: <Widget>[
+                _goodsName(index),
+                _goodsPrice(index)
+              ],
+            )
+          ],
+        ),
+      ),
+    );
   }
 }

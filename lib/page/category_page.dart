@@ -26,7 +26,7 @@ class _CateGoryPageState extends State<CateGoryPage> {
               LeftCategoryNav(),
               Column(
                 children: <Widget>[
-                  _RightCatetoryNavState(),
+                  _RightCatetoryNav(),
                   CategoryGoodsList()
                 ],
               )
@@ -133,12 +133,12 @@ class _LeftCategoryNavState extends State<LeftCategoryNav> {
 }
 
 // 右侧大类导航
-class _RightCatetoryNavState extends StatefulWidget {
+class _RightCatetoryNav extends StatefulWidget {
   @override
-  __RightCatetoryNavStateState createState() => __RightCatetoryNavStateState();
+  __RightCatetoryNavState createState() => __RightCatetoryNavState();
 }
 
-class __RightCatetoryNavStateState extends State<_RightCatetoryNavState> {
+class __RightCatetoryNavState extends State<_RightCatetoryNav> {
   // List list = ['名酒', '宝丰', '北京二锅头', '大明', '茅台', '五粮液', '散白'];
   @override
   Widget build(BuildContext context) {
@@ -157,7 +157,7 @@ class __RightCatetoryNavStateState extends State<_RightCatetoryNavState> {
             scrollDirection: Axis.horizontal,
             itemCount: childCategory.childCategoryList.length,
             itemBuilder: (context, index) {
-              return _rightInkWell(childCategory.childCategoryList[index]);
+              return _rightInkWell(index, childCategory.childCategoryList[index]);
             },
           ),
         );
@@ -165,12 +165,22 @@ class __RightCatetoryNavStateState extends State<_RightCatetoryNavState> {
     );
   }
 
-  Widget _rightInkWell (BxMallSubDto item) {
+  Widget _rightInkWell (int index, BxMallSubDto item) {
+    bool isClick = false;
+    isClick = (index==Provide.value<ChildCategory>(context).childIndex)?true: false;
     return InkWell(
-      onTap: (){},
+      onTap: (){
+        Provide.value<ChildCategory>(context).changeChildIndex(index);
+      },
       child: Container(
         padding: EdgeInsets.fromLTRB(5.0, 10.0, 5.0, 10.0),
-        child: Text(item.mallSubName, style: TextStyle(fontSize: ScreenUtil().setSp(28)),),
+        child: Text(
+          item.mallSubName,
+          style: TextStyle(
+            fontSize: ScreenUtil().setSp(28),
+            color: isClick?Colors.pink:Colors.black
+          ),
+        ),
       ),
     );
   }
@@ -193,14 +203,16 @@ class _CategoryGoodsListState extends State<CategoryGoodsList> {
   Widget build(BuildContext context) {
     return Provide<CategoryGoodsListProvide>(
       builder: (context, child, data) {
-        return Container(
-          width: ScreenUtil().setWidth(570),
-          height: ScreenUtil().setHeight(970),
-          child: ListView.builder(
-            itemCount: data.goodsList.length,
-            itemBuilder: (context, index) {
-              return _listWiget(data.goodsList, index);
-            },
+        return Expanded(
+          child: Container(
+            width: ScreenUtil().setWidth(570),
+            // height: ScreenUtil().setHeight(970),
+            child: ListView.builder(
+              itemCount: data.goodsList.length,
+              itemBuilder: (context, index) {
+                return _listWiget(data.goodsList, index);
+              },
+            ),
           ),
         );
       },

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-class DetialsPage extends StatelessWidget {
+class DetailsPage extends StatelessWidget {
   final String goodsId;
-  DetialsPage(this.goodsId);
+  DetailsPage(this.goodsId);
   @override
   Widget build(BuildContext context) {
     return Container(

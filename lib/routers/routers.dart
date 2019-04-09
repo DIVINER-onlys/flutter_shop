@@ -12,6 +12,6 @@ class Routes {
       } 
     );
 
-    router.define(detailsPage, handler: detailsHander);
+    router.define(detailsPage, handler: detailsHandler);
   }
 }

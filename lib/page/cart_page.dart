@@ -61,8 +61,8 @@ class _CartPageState extends State<CartPage> {
   // 删除
   void _clear() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.clear(); //清除所有持久化
-    // prefs.remove('testInfo');
+    // prefs.clear(); //清除所有持久化
+    prefs.remove('testInfo');
     setState(() {
       testList = [];
     });

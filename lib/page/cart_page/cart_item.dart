@@ -72,7 +72,7 @@ class CartItem extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(item.goodsName),
-          CartCount.CartCount()
+          CartCount.CartCount(item)
         ],
       ),
     );

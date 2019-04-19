@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../../model/cartInfo.dart';
+import './cart_count.dart' as CartCount;
 
 class CartItem extends StatelessWidget {
   final CartInfoModel item;
@@ -63,8 +64,10 @@ class CartItem extends StatelessWidget {
       padding: EdgeInsets.all(10.0),
       alignment: Alignment.topLeft,
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Text(item.goodsName)
+          Text(item.goodsName),
+          CartCount.CartCount()
         ],
       ),
     );

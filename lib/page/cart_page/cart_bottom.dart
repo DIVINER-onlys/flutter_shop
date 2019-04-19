@@ -28,9 +28,11 @@ class CartBottom extends StatelessWidget {
       child: Row(
         children: <Widget>[
           Checkbox(
-            value: true,
+            value: Provide.value<CartProvide>(context).isAllCheck,
             activeColor: Colors.pink,
-            onChanged: (val) {},
+            onChanged: (val) {
+              Provide.value<CartProvide>(context).changeAllCheckBtnState(val);
+            },
           ),
           Text(
             '全选'

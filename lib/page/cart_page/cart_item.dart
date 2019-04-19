@@ -38,7 +38,10 @@ class CartItem extends StatelessWidget {
       child: Checkbox(
         value: item.isCheck,
         activeColor: Colors.pink,
-        onChanged: (bool val) {},
+        onChanged: (bool val) {
+          item.isCheck = val;
+          Provide.value<CartProvide>(context).changeCheckState(item);
+        },
       ),
     );
   }
